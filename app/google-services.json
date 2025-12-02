@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "7954633050",
+    "project_id": "multitasked-a8428",
+    "storage_bucket": "multitasked-a8428.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7954633050:android:73a2c3719f408587e4e363",
+        "android_client_info": {
+          "package_name": "com.example.multitasked"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8EFQHxoY7x31Sbzn3zilROXjIsoQfIuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
