@@ -2,6 +2,7 @@ package com.example.multitasked.data.repository
 
 import com.example.multitasked.data.model.User
 import com.example.multitasked.data.remote.FirebaseDataSource
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,6 +12,8 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
 
     override fun currentUserId(): String? = remote.currentUserId()
+
+    override fun authStateChanges(): Flow<String?> = remote.authStateChanges()
 
     override fun logout() {
         remote.logout()

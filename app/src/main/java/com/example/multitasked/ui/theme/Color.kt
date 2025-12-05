@@ -30,3 +30,15 @@ val SunsetAmber = Color(0xFFFFC107)
 val SunsetRed = Color(0xFFD32F2F)
 val SunsetSurface = Color(0xFFFFFDE7) // Light Yellow/Cream
 val SunsetOnSurface = Color(0xFF3E2723)
+
+// Custom Card Colors
+val LightBoardCard = Color(0xFFFFFFFF)
+val LightTaskCard = Color(0xFFFFFFFF)
+val DarkBoardCard = Color(0xFF2C2C2E)
+val DarkTaskCard = Color(0xFF3A3A3C)
+val OceanBoardCard = Color(0xFFB3E5FC)
+val OceanTaskCard = Color(0xFFB3E5FC)
+val ForestBoardCard = Color(0xFFC8E6C9)
+val ForestTaskCard = Color(0xFFC8E6C9)
+val SunsetBoardCard = Color(0xFFFFECB3)
+val SunsetTaskCard = Color(0xFFFFECB3)

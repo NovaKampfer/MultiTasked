@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -54,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import com.example.multitasked.data.model.Board
 import com.example.multitasked.data.model.BoardType
 import com.example.multitasked.ui.theme.AppTheme
+import com.example.multitasked.ui.theme.CustomTheme
 import com.example.multitasked.util.debounceClick
 
 private sealed class ActiveDialog {
@@ -421,7 +423,10 @@ private fun BoardCard(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clickable(onClick = onClick)
+            .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(
+            containerColor = CustomTheme.colors.boardCard
+        )
     ) {
         Row(
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 16.dp, end = 4.dp),

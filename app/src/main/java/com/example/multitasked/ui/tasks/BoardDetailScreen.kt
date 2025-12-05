@@ -19,6 +19,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
@@ -55,6 +56,7 @@ import com.example.multitasked.data.model.Priority
 import com.example.multitasked.data.model.TaskItem
 import com.example.multitasked.data.model.User
 import com.example.multitasked.ui.effects.ConfettiEffect
+import com.example.multitasked.ui.theme.CustomTheme
 import com.example.multitasked.util.debounceClick
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -256,7 +258,10 @@ private fun TaskRow(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onExpand)
+            .clickable(onClick = onExpand),
+        colors = CardDefaults.cardColors(
+            containerColor = CustomTheme.colors.taskCard
+        )
     ) {
         Column {
             Row(

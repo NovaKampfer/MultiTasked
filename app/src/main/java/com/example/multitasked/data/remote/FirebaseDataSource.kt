@@ -8,8 +8,11 @@ import com.example.multitasked.data.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.snapshots
+import com.google.firebase.firestore.snapshots
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.tasks.await
@@ -46,6 +49,19 @@ class FirebaseDataSource(
     }
 
     fun currentUserId(): String? = auth.currentUser?.uid
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun authStateChanges(): Flow<String?> = callbackFlow {
+        val listener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            trySend(firebaseAuth.currentUser?.uid).isSuccess
+        }
+
+        auth.addAuthStateListener(listener)
+
+        awaitClose {
+            auth.removeAuthStateListener(listener)
+        }
+    }
 
     fun logout() {
         auth.signOut()
@@ -104,10 +120,12 @@ class FirebaseDataSource(
     }
 
     suspend fun updateBoard(boardId: String, name: String, description: String) {
-        boardDoc(boardId).update(mapOf(
-            "name" to name,
-            "description" to description
-        )).await()
+        boardDoc(boardId).update(
+            mapOf(
+                "name" to name,
+                "description" to description
+            )
+        ).await()
     }
 
     fun getBoardsForCurrentUser(): Flow<List<Board>> {
@@ -222,14 +240,22 @@ class FirebaseDataSource(
             .await()
     }
 
-    suspend fun updateTaskDetails(boardId: String, taskId: String, notes: String, dueDate: Long?, priority: Priority) {
+    suspend fun updateTaskDetails(
+        boardId: String,
+        taskId: String,
+        notes: String,
+        dueDate: Long?,
+        priority: Priority
+    ) {
         tasksCollection(boardId)
             .document(taskId)
-            .update(mapOf(
-                "notes" to notes,
-                "dueDate" to dueDate,
-                "priority" to priority
-            ))
+            .update(
+                mapOf(
+                    "notes" to notes,
+                    "dueDate" to dueDate,
+                    "priority" to priority
+                )
+            )
             .await()
     }
 

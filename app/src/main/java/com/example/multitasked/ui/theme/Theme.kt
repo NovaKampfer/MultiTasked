@@ -8,6 +8,9 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
@@ -70,30 +73,78 @@ enum class AppTheme {
     SUNSET
 }
 
+@Immutable
+data class CustomColors(
+    val boardCard: Color,
+    val taskCard: Color
+)
+
+private val LocalCustomColors = staticCompositionLocalOf {
+    CustomColors(
+        boardCard = Color.Unspecified,
+        taskCard = Color.Unspecified
+    )
+}
+
+private val LightCustomColors = CustomColors(
+    boardCard = LightBoardCard,
+    taskCard = LightTaskCard
+)
+
+private val DarkCustomColors = CustomColors(
+    boardCard = DarkBoardCard,
+    taskCard = DarkTaskCard
+)
+
+private val OceanCustomColors = CustomColors(
+    boardCard = OceanBoardCard,
+    taskCard = OceanTaskCard
+)
+
+private val ForestCustomColors = CustomColors(
+    boardCard = ForestBoardCard,
+    taskCard = ForestTaskCard
+)
+
+private val SunsetCustomColors = CustomColors(
+    boardCard = SunsetBoardCard,
+    taskCard = SunsetTaskCard
+)
+
+object CustomTheme {
+    val colors: CustomColors
+        @Composable
+        get() = LocalCustomColors.current
+}
+
 @Composable
 fun MultiTaskedTheme(
     theme: AppTheme = AppTheme.SYSTEM,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when (theme) {
+    val (colorScheme, customColors) = when (theme) {
         AppTheme.SYSTEM -> {
             val context = LocalContext.current
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if (isSystemInDarkTheme()) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+                if (isSystemInDarkTheme()) dynamicDarkColorScheme(context) to DarkCustomColors
+                else dynamicLightColorScheme(context) to LightCustomColors
             } else {
-                if (isSystemInDarkTheme()) DarkColorScheme else LightColorScheme
+                if (isSystemInDarkTheme()) DarkColorScheme to DarkCustomColors
+                else LightColorScheme to LightCustomColors
             }
         }
-        AppTheme.LIGHT -> LightColorScheme
-        AppTheme.DARK -> DarkColorScheme
-        AppTheme.OCEAN -> OceanColorScheme
-        AppTheme.FOREST -> ForestColorScheme
-        AppTheme.SUNSET -> SunsetColorScheme
+        AppTheme.LIGHT -> LightColorScheme to LightCustomColors
+        AppTheme.DARK -> DarkColorScheme to DarkCustomColors
+        AppTheme.OCEAN -> OceanColorScheme to OceanCustomColors
+        AppTheme.FOREST -> ForestColorScheme to ForestCustomColors
+        AppTheme.SUNSET -> SunsetColorScheme to SunsetCustomColors
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalCustomColors provides customColors) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
