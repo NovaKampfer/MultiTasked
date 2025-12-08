@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.multitasked"
+    namespace = "com.MatthewBaerg.multitasked"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.multitasked"
+        applicationId = "com.MatthewBaerg.multitasked"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

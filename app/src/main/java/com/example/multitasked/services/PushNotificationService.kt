@@ -5,7 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.example.multitasked.R
+import com.MatthewBaerg.multitasked.R
 import com.example.multitasked.data.repository.AuthRepository
 import com.example.multitasked.data.repository.UserRepository
 import com.google.firebase.messaging.FirebaseMessagingService

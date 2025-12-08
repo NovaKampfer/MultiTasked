@@ -7,9 +7,28 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:7954633050:android:254192e0a7d0e19ae4e363",
+        "android_client_info": {
+          "package_name": "com.MatthewBaerg.multitasked"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8EFQHxoY7x31Sbzn3zilROXjIsoQfIuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:7954633050:android:73a2c3719f408587e4e363",
         "android_client_info": {
-          "package_name": "com.example.multitasked"
+          "package_name": "com.MatthewBaerg.multitasked"
         }
       },
       "oauth_client": [],
