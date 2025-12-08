@@ -56,7 +56,6 @@ import com.example.multitasked.data.model.Priority
 import com.example.multitasked.data.model.TaskItem
 import com.example.multitasked.data.model.User
 import com.example.multitasked.ui.effects.ConfettiEffect
-import com.example.multitasked.ui.theme.CustomTheme
 import com.example.multitasked.util.debounceClick
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -201,7 +200,7 @@ fun BoardDetailScreen(
                                         onDelete = { viewModel.deleteTask(task) },
                                         onExpand = { expandedTaskId = if (expandedTaskId == task.id) null else task.id }
                                     )
-                                }
+                                 }
                             }
                         }
                     }
@@ -260,7 +259,7 @@ private fun TaskRow(
             .fillMaxWidth()
             .clickable(onClick = onExpand),
         colors = CardDefaults.cardColors(
-            containerColor = CustomTheme.colors.taskCard
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
         )
     ) {
         Column {
@@ -280,7 +279,7 @@ private fun TaskRow(
                     Text(
                         text = task.title,
                         style = MaterialTheme.typography.bodyLarge,
-                        maxLines = 2,
+                        maxLines = if (isExpanded) Int.MAX_VALUE else 2,
                         overflow = TextOverflow.Ellipsis,
                         textDecoration = if (task.isDone) TextDecoration.LineThrough else TextDecoration.None
                     )

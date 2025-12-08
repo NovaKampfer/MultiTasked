@@ -2,43 +2,38 @@ package com.example.multitasked.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// Default Light Colors
+val LightPrimary = Color(0xFF6200EE)
+val LightSecondary = Color(0xFF03DAC6)
+val LightTertiary = Color(0xFF3700B3)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
-
-// Ocean Theme Colors
-val OceanBlue = Color(0xFF0069C0)
-val OceanTeal = Color(0xFF00796B)
-val OceanCyan = Color(0xFF4DD0E1)
-val OceanSurface = Color(0xFFE0F7FA) // Light Cyan
-val OceanOnSurface = Color(0xFF00363A)
+// Default Dark Colors
+val DarkPrimary = Color(0xFFBB86FC)
+val DarkSecondary = Color(0xFF03DAC6)
+val DarkTertiary = Color(0xFF3700B3)
 
 // Forest Theme Colors
-val ForestGreen = Color(0xFF2E7D32)
-val ForestLime = Color(0xFF689F38)
-val ForestYellow = Color(0xFFAFB42B)
-val ForestSurface = Color(0xFFF1F8E9) // Light Green
-val ForestOnSurface = Color(0xFF1A3A1B)
+val ForestPrimary = Color(0xFF8BC34A)
+val ForestSecondary = Color(0xFF689F38)
+val ForestTertiary = Color(0xFFAFB42B)
+val ForestBackground = Color(0xFF1B3D1B)
+val ForestOnBackground = Color(0xFFE8F5E9)
+val ForestCard = Color(0xFF385C38)
+
+
+// Ocean Theme Colors
+val OceanPrimary = Color(0xFF4DD0E1)
+val OceanSecondary = Color(0xFF00ACC1)
+val OceanTertiary = Color(0xFF0097A7)
+val OceanBackground = Color(0xFF0D2B47)
+val OceanOnBackground = Color(0xFFE0F7FA)
+val OceanCard = Color(0xFF1E4973)
+
 
 // Sunset Theme Colors
-val SunsetOrange = Color(0xFFF57C00)
-val SunsetAmber = Color(0xFFFFC107)
-val SunsetRed = Color(0xFFD32F2F)
-val SunsetSurface = Color(0xFFFFFDE7) // Light Yellow/Cream
-val SunsetOnSurface = Color(0xFF3E2723)
-
-// Custom Card Colors
-val LightBoardCard = Color(0xFFFFFFFF)
-val LightTaskCard = Color(0xFFFFFFFF)
-val DarkBoardCard = Color(0xFF2C2C2E)
-val DarkTaskCard = Color(0xFF3A3A3C)
-val OceanBoardCard = Color(0xFFB3E5FC)
-val OceanTaskCard = Color(0xFFB3E5FC)
-val ForestBoardCard = Color(0xFFC8E6C9)
-val ForestTaskCard = Color(0xFFC8E6C9)
-val SunsetBoardCard = Color(0xFFFFECB3)
-val SunsetTaskCard = Color(0xFFFFECB3)
+val SunsetPrimary = Color(0xFF9E4848)
+val SunsetSecondary = Color(0xFF803838)
+val SunsetTertiary = Color(0xFFC55B5B)
+val SunsetBackground = Color(0xFF2C1B1B)
+val SunsetOnBackground = Color(0xFFFFF0F0)
+val SunsetCard = Color(0xFF422B2B)

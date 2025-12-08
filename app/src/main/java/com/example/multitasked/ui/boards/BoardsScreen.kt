@@ -55,7 +55,6 @@ import androidx.compose.ui.unit.dp
 import com.example.multitasked.data.model.Board
 import com.example.multitasked.data.model.BoardType
 import com.example.multitasked.ui.theme.AppTheme
-import com.example.multitasked.ui.theme.CustomTheme
 import com.example.multitasked.util.debounceClick
 
 private sealed class ActiveDialog {
@@ -97,7 +96,10 @@ fun BoardsScreen(
             }
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.background,
+                tonalElevation = 0.dp
+            ) {
                 NavigationBarItem(
                     selected = true,
                     onClick = { /* already here */ },
@@ -425,7 +427,7 @@ private fun BoardCard(
             .wrapContentHeight()
             .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
-            containerColor = CustomTheme.colors.boardCard
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
         )
     ) {
         Row(
