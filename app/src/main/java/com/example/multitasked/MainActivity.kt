@@ -9,12 +9,12 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.example.multitasked.data.repository.AuthRepository
 import com.example.multitasked.ui.SettingsRepository
@@ -56,7 +56,7 @@ fun MultiTaskedApp(
     settingsRepository: SettingsRepository
 ) {
     val scope = rememberCoroutineScope()
-    val currentTheme by settingsRepository.theme.collectAsStateWithLifecycle(initialValue = AppTheme.SYSTEM)
+    val currentTheme by settingsRepository.theme.collectAsState(initial = AppTheme.SYSTEM)
 
     MultiTaskedTheme(theme = currentTheme) {
         Surface(
@@ -65,7 +65,7 @@ fun MultiTaskedApp(
         ) {
             val navController = rememberNavController()
 
-            val userId by authRepository.authStateChanges().collectAsStateWithLifecycle(initialValue = Authenticating)
+            val userId by authRepository.authStateChanges().collectAsState(initial = Authenticating)
 
             if (userId == Authenticating) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
