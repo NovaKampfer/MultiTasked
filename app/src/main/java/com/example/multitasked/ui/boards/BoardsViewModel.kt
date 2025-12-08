@@ -8,8 +8,10 @@ import com.example.multitasked.data.repository.BoardRepository
 import com.example.multitasked.ui.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -52,11 +54,26 @@ class BoardsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
+    private val _searchQuery = MutableStateFlow("")
+    private val _sortOption = MutableStateFlow(BoardSortOption.NAME_ASC)
+    private val _errorMessage = MutableStateFlow<String?>(null)
+
     val uiState: StateFlow<BoardsUiState> = combine(
         boardRepository.getBoards(),
-        settingsRepository.showCelebration
-    ) { boards, showCelebration ->
-        BoardsUiState(allBoards = boards, showCelebration = showCelebration)
+        settingsRepository.showCelebration,
+        _searchQuery,
+        _sortOption,
+        _errorMessage
+    ) { boards, showCelebration, query, sort, error ->
+        BoardsUiState(
+            allBoards = boards,
+            showCelebration = showCelebration,
+            searchQuery = query,
+            sortOption = sort,
+            errorMessage = error
+        )
+    }.catch { e ->
+        emit(BoardsUiState(errorMessage = e.localizedMessage ?: "Failed to load boards"))
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), BoardsUiState(isLoading = true))
 
     fun createBoard(name: String, description: String, type: BoardType) {
@@ -64,7 +81,7 @@ class BoardsViewModel @Inject constructor(
             try {
                 boardRepository.createBoard(name, description, type)
             } catch (e: Exception) {
-                // TODO: Handle error
+                _errorMessage.value = e.localizedMessage ?: "Failed to create board"
             }
         }
     }
@@ -74,7 +91,7 @@ class BoardsViewModel @Inject constructor(
             try {
                 boardRepository.updateBoard(boardId, name, description)
             } catch (e: Exception) {
-                // TODO: Handle error
+                _errorMessage.value = e.localizedMessage ?: "Failed to update board"
             }
         }
     }
@@ -84,7 +101,7 @@ class BoardsViewModel @Inject constructor(
             try {
                 boardRepository.joinBoard(boardId)
             } catch (e: Exception) {
-                // TODO: Handle error
+                _errorMessage.value = e.localizedMessage ?: "Failed to join board"
             }
         }
     }
@@ -94,17 +111,17 @@ class BoardsViewModel @Inject constructor(
             try {
                 boardRepository.deleteBoard(boardId)
             } catch (e: Exception) {
-                // TODO: Handle error
+                _errorMessage.value = e.localizedMessage ?: "Failed to delete board"
             }
         }
     }
 
     fun setSearchQuery(query: String) {
-        // This will be handled by the UI state combination
+        _searchQuery.value = query
     }
 
     fun setSortOption(option: BoardSortOption) {
-        // This will be handled by the UI state combination
+        _sortOption.value = option
     }
 
     fun setShowCelebration(show: Boolean) {
@@ -114,6 +131,6 @@ class BoardsViewModel @Inject constructor(
     }
 
     fun clearError() {
-        // This will be handled by the UI state combination
+        _errorMessage.value = null
     }
 }

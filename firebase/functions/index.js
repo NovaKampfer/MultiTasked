@@ -16,10 +16,10 @@ exports.onTaskCreated = functions.firestore
     .onCreate(async (snap, context) => {
         const boardId = context.params.boardId;
 
-        // TODO: Implement the update logic.
-        // HINT:
-        //  - Get the board document with db.collection("boards").doc(boardId)
-        //  - Use FieldValue.increment(1) on the "taskCount" field.
+        const boardRef = db.collection("boards").doc(boardId);
+        await boardRef.update({
+            taskCount: admin.firestore.FieldValue.increment(1)
+        });
 
-        console.log("Task created for board:", boardId);
+        console.log("Task count incremented for board:", boardId);
     });

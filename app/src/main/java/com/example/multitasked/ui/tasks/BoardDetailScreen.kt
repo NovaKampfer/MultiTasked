@@ -158,7 +158,7 @@ fun BoardDetailScreen(
                                 color = MaterialTheme.colorScheme.error
                             )
                             Spacer(modifier = Modifier.height(8.dp))
-                            Button(onClick = { /* TODO: Implement retry */ }) { Text("Retry") }
+                            Button(onClick = { viewModel.onRetry() }) { Text("Retry") }
                         }
                     }
                 } else {

@@ -14,8 +14,10 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -55,21 +57,26 @@ class BoardDetailViewModel @Inject constructor(
 
     private val _sortOption = MutableStateFlow(TaskSortOption.RECENT)
     private val _showCelebration = MutableStateFlow(false)
+    private val _retryTrigger = MutableStateFlow(0)
 
-    val uiState: StateFlow<BoardDetailUiState> = combine(
-        repo.getBoard(boardId),
-        repo.getTasks(boardId),
-        repo.getBoardMembers(boardId),
-        _sortOption,
-        _showCelebration
-    ) { board, tasks, members, sortOption, showCelebration ->
-        BoardDetailUiState(
-            board = board,
-            tasks = applySort(tasks, sortOption),
-            boardMembers = members,
-            sortOption = sortOption,
-            showCelebration = showCelebration
-        )
+    val uiState: StateFlow<BoardDetailUiState> = _retryTrigger.flatMapLatest {
+        combine(
+            repo.getBoard(boardId),
+            repo.getTasks(boardId),
+            repo.getBoardMembers(boardId),
+            _sortOption,
+            _showCelebration
+        ) { board, tasks, members, sortOption, showCelebration ->
+            BoardDetailUiState(
+                board = board,
+                tasks = applySort(tasks, sortOption),
+                boardMembers = members,
+                sortOption = sortOption,
+                showCelebration = showCelebration
+            )
+        }.catch { e ->
+            emit(BoardDetailUiState(errorMessage = e.localizedMessage ?: "Failed to load board details"))
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), BoardDetailUiState(isLoading = true))
 
     fun addTask(title: String) {
@@ -148,8 +155,8 @@ class BoardDetailViewModel @Inject constructor(
         _showCelebration.value = false
     }
 
-    fun clearError() {
-        // This will be handled by the UI state combination
+    fun onRetry() {
+        _retryTrigger.value++
     }
 
     private fun applySort(
